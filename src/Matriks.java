@@ -43,6 +43,10 @@ public class Matriks {
         return this.kolom - 1;
     }
 
+    public boolean isSquare() {
+        return this.baris == this.kolom;
+    }
+
     public String getString() {
         String string = "";
         for (int i = 0; i < this.baris; i++) {
@@ -198,7 +202,9 @@ public class Matriks {
     }
 
     public double getDeterminanKofaktor() {
-        if (this.baris == 2) {
+        if (this.baris == 1) {
+            return this.content[0][0];
+        } else if (this.baris == 2) {
             return this.content[0][0] * this.content[1][1] - this.content[0][1] * this.content[1][0];
         } else {
             double determinan = 0;
@@ -238,6 +244,35 @@ public class Matriks {
             }
         }
         return determinan;
+    }
+
+    public boolean adaMatriksBalikan() {
+        boolean ada = false;
+        double[][] konten = new double[this.baris][2 * this.kolom];
+        for (int i = 0; i < this.baris; i++) {
+            for (int j = 0; j < this.kolom; j++) {
+                konten[i][j] = this.content[i][j];
+            }
+        }
+        for (int i = 0; i < this.baris; i++) {
+            for (int j = this.kolom; j < 2 * this.kolom; j++) {
+                if (i == j - this.kolom) {
+                    konten[i][j] = 1;
+                } else {
+                    konten[i][j] = 0;
+                }
+            }
+        }
+        
+        Matriks matriks = Matriks.eselonTereduksi(new Matriks(konten));
+        int j = 0;
+        while (!ada && j < this.kolom) {
+            if (matriks.getElement(this.baris - 1, j) != 0) {
+                ada = true;
+            }
+            j++;
+        }
+        return ada;
     }
 
     public Matriks inversWithGaussJordan() {

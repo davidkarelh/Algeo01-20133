@@ -23,18 +23,26 @@ public class Determinan {
             PILIHAN METODE
             1. Reduksi Baris
             2. Ekspansi Kofaktor
+            3. Kembali
             """);
             System.out.print("Pilih metode yang mau digunakan: ");
             aksi = input.nextInt();
             if (aksi == 1) {
-                System.out.println(String.format("\nDeterminan matriks yang dimasukkan = %f\n", inputDeterminanManual(input).getDeterminanReduksiBaris()));
+                System.out.println(String.format("\nDeterminan matriks yang dimasukkan = %f\n",inputDeterminanManual(input).getDeterminanReduksiBaris()));
                 exit = true;
             } else if (aksi == 2) {
-                System.out.println(String.format("\nDeterminan matriks yang dimasukkan = %f\n", inputDeterminanManual(input).getDeterminanKofaktor()));
+                System.out.println(String.format("\nDeterminan matriks yang dimasukkan = %f\n",inputDeterminanManual(input).getDeterminanKofaktor()));
                 exit = true;
+            } else if (aksi == 3) {
+                exit = true;
+                System.out.println();
             } else {
                 System.out.println("\nMasukkan tidak valid, ulangi!\n");
             }
         } while(!exit);
+        System.out.print("Kembali ke menu utama? Masukkan apapun untuk kembali ke menu utama: ");
+        input.next();
+        input.nextLine();
+        System.out.println();
     }
 }
