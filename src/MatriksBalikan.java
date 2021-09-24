@@ -23,7 +23,7 @@ public class MatriksBalikan {
             """
             PILIHAN METODE
             1. Eliminasi Gauss-Jordan
-            2. ---
+            2. Adjoin
             3. Kembali
             """);
             System.out.print("Pilih metode yang mau digunakan: ");
@@ -37,7 +37,12 @@ public class MatriksBalikan {
                 }
                 exit = true;
             } else if (aksi == 2) {
-                // System.out.println(String.format("\nDeterminan matriks yang dimasukkan = %f\n", inputDeterminanManual(input).getDeterminanKofaktor()));
+                Matriks m = inputMatriksBalikanManual(input);
+                if (m.adaMatriksBalikan()) {
+                    System.out.println(m.inversWithAdjoin().getString());
+                } else {
+                    System.out.println("Matriks tidak mempunyai balikan");
+                }
                 exit = true;
             } else if (aksi == 3) {
                 exit = true;

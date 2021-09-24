@@ -52,7 +52,7 @@ public class Matriks {
         for (int i = 0; i < this.baris; i++) {
             for (int j = 0; j < this.kolom; j++) {
                 string += "|";
-                string += this.content[i][j];
+                string += String.valueOf(this.content[i][j]);
                 string += "\t";
             }
             string += "|\n";
@@ -201,6 +201,44 @@ public class Matriks {
         return new Matriks(konten);
     }
 
+    public Matriks getSubMatrix(int rowIdx, int colIdx) {
+        int kolom;
+        double[][] konten = new double[this.baris - 1][this.kolom - 1];
+        int baris = 0;
+        for (int i = 0; i < this.baris; i++) {
+            kolom = 0;
+            for (int j = 0; j < this.kolom; j++) {
+                if (i != rowIdx && j != colIdx) {
+                    konten[baris][kolom] = this.content[i][j];
+                    kolom++;
+                    if (kolom == konten[0].length) {
+                        baris++;
+                    }
+                }
+            }
+        }
+        return new Matriks(konten);
+    }
+
+    public Matriks getMatriksAdjoin() {
+        double[][] konten = new double[this.baris][this.kolom];
+        for (int i = 0; i < this.baris; i++) {
+            for (int j = 0; j < this.kolom; j++) {
+                if ((i + j) % 2 == 0) {
+                    konten[i][j] = new Matriks(this.content).getSubMatrix(i, j).getDeterminanKofaktor();
+                } else {
+                    konten[i][j] = -1 * new Matriks(this.content).getSubMatrix(i, j).getDeterminanKofaktor();
+                }
+            }
+        }
+        return Matriks.transpose(new Matriks(konten));
+    }
+
+    public Matriks inversWithAdjoin() {
+        double scalar = 1 / new Matriks(this.content).getDeterminanKofaktor();
+        return Matriks.scalarMultiplication(scalar, new Matriks(this.content).getMatriksAdjoin());
+    }
+
     public double getDeterminanKofaktor() {
         if (this.baris == 1) {
             return this.content[0][0];
@@ -222,7 +260,7 @@ public class Matriks {
                     }
                 }
                 Matriks newMatriks = new Matriks(konten);
-                if ((k + 2) % 2 == 0) {
+                if ((k % 2) == 0) {
                     determinan += this.content[k][0] * newMatriks.getDeterminanKofaktor();
                 } else {
                     determinan -= this.content[k][0] * newMatriks.getDeterminanKofaktor();
@@ -247,32 +285,7 @@ public class Matriks {
     }
 
     public boolean adaMatriksBalikan() {
-        boolean ada = false;
-        double[][] konten = new double[this.baris][2 * this.kolom];
-        for (int i = 0; i < this.baris; i++) {
-            for (int j = 0; j < this.kolom; j++) {
-                konten[i][j] = this.content[i][j];
-            }
-        }
-        for (int i = 0; i < this.baris; i++) {
-            for (int j = this.kolom; j < 2 * this.kolom; j++) {
-                if (i == j - this.kolom) {
-                    konten[i][j] = 1;
-                } else {
-                    konten[i][j] = 0;
-                }
-            }
-        }
-        
-        Matriks matriks = Matriks.eselonTereduksi(new Matriks(konten));
-        int j = 0;
-        while (!ada && j < this.kolom) {
-            if (matriks.getElement(this.baris - 1, j) != 0) {
-                ada = true;
-            }
-            j++;
-        }
-        return ada;
+        return new Matriks(this.content).getDeterminanKofaktor() != 0;
     }
 
     public Matriks inversWithGaussJordan() {

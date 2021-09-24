@@ -23,12 +23,6 @@ public class SPL {
     public static void solveWithGauss(Matriks m) {
         System.out.println();
         Matriks matriks = Matriks.reduksiBaris(m, true);
-        // for (int i = 0; i < matriks.getBaris(); i++) {
-        //     for (int j = 0; j < matriks.getKolom(); j++) {
-        //         System.out.print(matriks.getElement(i, j)+ "\t");;
-        //     }
-        //     System.out.println();
-        // }
         if (hasNoSolution(matriks)) {
             System.out.println("Sistem Persamaan Linear tidak mempunyai solusi.");
         } else if (hasManySolution(matriks)) {
@@ -42,12 +36,6 @@ public class SPL {
     public static void solveWithGaussJordan(Matriks m) {
         System.out.println();
         Matriks matriks = Matriks.eselonTereduksi(m);
-        // for (int i = 0; i < matriks.getBaris(); i++) {
-        //     for (int j = 0; j < matriks.getKolom(); j++) {
-        //         System.out.print(matriks.getElement(i, j)+ "\t");
-        //     }
-        //     System.out.println();
-        // }
         if (hasNoSolution(matriks)) {
             System.out.println("Sistem Persamaan Linear tidak mempunyai solusi.");
         } else if (hasManySolution(matriks)) {
@@ -110,17 +98,18 @@ public class SPL {
             }
         }
         for (int i = 0; i < hasil.length; i++) {
-            System.out.println(String.format("Variabel %d = %f", i + 1, hasil[i]));
+            System.out.println(String.format("Variabel %d = %s", i + 1, String.valueOf(hasil[i])));
         }
     }
 
     private static void manyEselonSolver(Matriks m) {
         int jumlahVariabel = m.getKolom() - 1;
+        int i, j;
         String[][] hasil = new String[jumlahVariabel][jumlahVariabel];
         double zero = 0;
         boolean ketemu;
-        for (int i = 0; i < hasil.length; i++) {
-            for (int j = 0; j < hasil[0].length; j++) {
+        for (i = 0; i < hasil.length; i++) {
+            for (j = 0; j < hasil[0].length; j++) {
                 if (i == j) {
                     hasil[i][j] = "real";
                 } else {
@@ -128,8 +117,8 @@ public class SPL {
                 }
             }
         }
-        for (int i = m.getIdxBarisTerakhir(); i >= 0; i--) {
-            int j = 0;
+        for (i = m.getIdxBarisTerakhir(); i >= 0; i--) {
+            j = 0;
             ketemu = false;
             while (j < m.getKolom() && !ketemu) {
                 if (m.getElement(i, j) == 1) {
@@ -148,13 +137,7 @@ public class SPL {
                 j++;
             }
         }
-        // for (String[] barisHasil:hasil) {
-        //     for (String elemen:barisHasil) {
-        //         System.out.print(elemen +"\t");
-        //     }
-        //     System.out.println();
-        // }
-        for (int i = 0; i < hasil.length; i++) {
+        for (i = 0; i < hasil.length; i++) {
             boolean ada = false;
             boolean sudah = false;
             System.out.print("Variabel " + (i + 1));
@@ -162,7 +145,7 @@ public class SPL {
                 System.out.println(" adalah bilangan real bebas.");
             } else {
                 System.out.print(" = ");
-                for (int j = i; j < hasil.length; j++) {
+                for (j = i; j < hasil.length; j++) {
                     if (j == i) {
                         if (Double.parseDouble(hasil[i][j]) != 0) {
                             System.out.print(Double.parseDouble(hasil[i][j]));
