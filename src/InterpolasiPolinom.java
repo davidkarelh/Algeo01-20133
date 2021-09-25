@@ -2,7 +2,7 @@ import java.util.Scanner;
 
 public class InterpolasiPolinom {
     public static Matriks inputIPmanual (Scanner input) {
-        System.out.println("Masukkan n (ukuran baris dan kolom matriks): ");
+        System.out.println("Masukkan n (banyaknya titik): ");
         int n = input.nextInt();
     
         double[][] konten = new double[n][n + 1];
@@ -35,9 +35,9 @@ public class InterpolasiPolinom {
             }
         }
 
-        System.out.printf("'%s'x", String.valueOf(hasil[0]));
+        System.out.printf("%sx", String.valueOf(hasil[0]));
         for (int i = 1; i < hasil.length; i++) {
-            System.out.printf(" + '%s'x^'%d'", String.valueOf(hasil[0]), i);
+            System.out.printf(" + %sx^%d", String.valueOf(hasil[0]), i);
         }
         System.out.printf("%n");
 
@@ -51,7 +51,7 @@ public class InterpolasiPolinom {
             y += hasil[i] * xm
             xm *= x 
         }
-        System.out.printf("p'%d' = '%s' %n", mr.getBaris(), String.valueOf(y));
+        System.out.printf("p%d(%s) = %s%n", mr.getBaris(), String.valueOf(x), String.valueOf(y));
     }
 
     public static void aksi(Scanner input) {
