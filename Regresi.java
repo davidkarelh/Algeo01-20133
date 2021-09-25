@@ -20,16 +20,6 @@ class Regresi{
             }
         }
 
-        for (int i=0;i<N+1;i++){
-            for (int j=0;j<N;j++){
-                System.out.print(tabeldata[i][j]);
-                if (j<N-1){
-                    System.out.print(" ");
-                }
-            }
-            System.out.println();
-        }
-
         /* Regresi */
         for (int i=0;i<N+1;i++){
             /* Baris Pertama */
@@ -68,15 +58,6 @@ class Regresi{
             }
         }
 
-        for (int i=0;i<N+1;i++){
-            for (int j=0;j<N+2;j++){
-                System.out.print(tabelregresi[i][j]);
-                if (j<N+1){
-                    System.out.print(" ");
-                }
-            }
-            System.out.println();
-        }
         scan.close();
     }
 }
