@@ -25,7 +25,7 @@ public class TubesDriver {
             } else if (aksi == 3) {
                 MatriksBalikan.aksi(input);
             } else if (aksi == 4) {
-
+                InterpolasiPolinom.aksi(input);
             } else if (aksi == 5) {
 
             } else if (aksi == 6) {
