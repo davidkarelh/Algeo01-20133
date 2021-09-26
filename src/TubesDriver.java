@@ -27,7 +27,7 @@ public class TubesDriver {
             } else if (aksi == 4) {
                 InterpolasiPolinom.aksi(input);
             } else if (aksi == 5) {
-
+                Regresi.aksi(input);
             } else if (aksi == 6) {
                 exit = true;
                 System.out.println("Keluar dari program...");
