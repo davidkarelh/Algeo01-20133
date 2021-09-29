@@ -1,5 +1,45 @@
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.Scanner;
 public class SPL {
+
+    public static Matriks inputSPLFile(Scanner input) {
+        System.out.print("Masukkan nama file yang berada di folder test: ");
+        String chosenFile = input.next();
+        Path currentPath = Paths.get(System.getProperty("user.dir"));
+        Path filePath = Paths.get(currentPath.toString(), "test", chosenFile);
+        String barisFile;
+        int i, j;
+        ArrayList<ArrayList<Double>> kontenDinamis = new ArrayList<ArrayList<Double>>();
+        try {
+            File file = new File(filePath.toString());
+            Scanner reader = new Scanner(file);
+            while (reader.hasNextLine()) {
+                barisFile = reader.nextLine();
+                ArrayList<Double> kontenBaris = new ArrayList<Double>();
+                for (String elemen: barisFile.split(" ")) {
+                    kontenBaris.add(Double.parseDouble(elemen));
+                }
+                kontenDinamis.add(kontenBaris);
+            }
+            double[][] konten = new double[kontenDinamis.size()][kontenDinamis.get(0).size()];
+            for (i = 0; i < kontenDinamis.size(); i++) {
+                for (j = 0; j < kontenDinamis.get(0).size(); j++) {
+                    konten[i][j] = kontenDinamis.get(i).get(j);
+                }
+            }
+            // System.out.println(new Matriks(konten).getString());
+            return new Matriks(konten);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+            System.out.println("file tidak ada.");
+        }
+        return null;
+    }
+
     public static Matriks inputSPLManual(Scanner input) {
         System.out.print("Masukkan m (jumlah persamaan): ");
         int m = input.nextInt();
@@ -23,6 +63,7 @@ public class SPL {
     public static void solveWithGauss(Matriks m) {
         System.out.println();
         Matriks matriks = Matriks.reduksiBaris(m, true);
+        System.out.println(matriks.getString());
         if (hasNoSolution(matriks)) {
             System.out.println("Sistem Persamaan Linear tidak mempunyai solusi.");
         } else if (hasManySolution(matriks)) {
@@ -36,6 +77,7 @@ public class SPL {
     public static void solveWithGaussJordan(Matriks m) {
         System.out.println();
         Matriks matriks = Matriks.eselonTereduksi(m);
+        System.out.println(matriks.getString());
         if (hasNoSolution(matriks)) {
             System.out.println("Sistem Persamaan Linear tidak mempunyai solusi.");
         } else if (hasManySolution(matriks)) {
@@ -225,10 +267,29 @@ public class SPL {
         }
         System.out.println();
     }
+    public static int pilihanInput(Scanner input) {
+        int pilihanInput;
+        do {
+            System.out.println(
+            """
+            PILIH METODE INPUT
+            1. Manual
+            2. File
+            3. Kembali
+            """);
+            System.out.print("Pilih metode input matriks yang mau digunakan: ");
+            pilihanInput = input.nextInt();
+            if (pilihanInput != 1 && pilihanInput != 2 && pilihanInput != 3) {
+                System.out.println("Input tidak valid, ulangi!");
+                System.out.println();
+            }
+        } while (pilihanInput != 1 && pilihanInput != 2 && pilihanInput != 3);
+        return pilihanInput;
+    }
 
     public static void aksi(Scanner input) {
         boolean valid = false;
-        int aksi;
+        int aksi, pilihanInput;
         do {
             System.out.println(
             """
@@ -242,17 +303,45 @@ public class SPL {
             System.out.print("Pilih metode yang mau digunakan: ");
             aksi = input.nextInt();
             if (aksi == 1) {
-                SPL.solveWithGauss(SPL.inputSPLManual(input));
                 valid = true;
+                pilihanInput = pilihanInput(input);
+                if (pilihanInput == 1) {
+                    SPL.solveWithGauss(SPL.inputSPLManual(input));
+                } else if (pilihanInput == 2) {
+                    SPL.solveWithGauss(SPL.inputSPLFile(input));
+                } else if (pilihanInput == 3) {
+                    valid = false;
+                }
             } else if (aksi == 2) {
-                SPL.solveWithGaussJordan(SPL.inputSPLManual(input));
                 valid = true;
+                pilihanInput = pilihanInput(input);
+                if (pilihanInput == 1) {
+                    SPL.solveWithGaussJordan(SPL.inputSPLManual(input));
+                } else if (pilihanInput == 2) {
+                    SPL.solveWithGaussJordan(SPL.inputSPLFile(input));
+                } else if (pilihanInput == 3) {
+                    valid = false;
+                }
             } else if (aksi == 3) {
-                solveWithInversMatriks(inputSPLManual(input));
                 valid = true;
+                pilihanInput = pilihanInput(input);
+                if (pilihanInput == 1) {
+                    SPL.solveWithInversMatriks(SPL.inputSPLManual(input));
+                } else if (pilihanInput == 2) {
+                    SPL.solveWithInversMatriks(SPL.inputSPLFile(input));
+                } else if (pilihanInput == 3) {
+                    valid = false;
+                }
             } else if (aksi == 4) {
-                solveWithCramer(inputSPLManual(input));
                 valid = true;
+                pilihanInput = pilihanInput(input);
+                if (pilihanInput == 1) {
+                    SPL.solveWithCramer(SPL.inputSPLManual(input));
+                } else if (pilihanInput == 2) {
+                    SPL.solveWithCramer(SPL.inputSPLFile(input));
+                } else if (pilihanInput == 3) {
+                    valid = false;
+                }
             } else if (aksi == 5) {
                 valid = true;
                 System.out.println();

@@ -9,7 +9,7 @@ public class InterpolasiPolinom {
 
     
         for (int i = 0; i < n; i++) {
-            double a = 1
+            double a = 1;
             System.out.println(String.format("Masukkan titik ke-%d sejumlah %d: ", i + 1, n));
             double x = input.nextDouble();
             double y = input.nextDouble();
@@ -19,12 +19,12 @@ public class InterpolasiPolinom {
             }
             konten[i][n] = y;
         }
-        return Matriks(konten);
+        return new Matriks(konten);
     }
 
 
 
-    private static void IPSolver(Matriks m) {
+    private static void IPSolver(Matriks m, Scanner input) {
         Matriks mr = Matriks.reduksiBaris(m, true);
         int jumlahVariabel = mr.getKolom() - 1;
         double[] hasil = new double[jumlahVariabel];
@@ -35,9 +35,9 @@ public class InterpolasiPolinom {
             }
         }
 
-        System.out.printf("%sx", String.valueOf(hasil[0]));
+        System.out.printf("%s", String.valueOf(hasil[0]));
         for (int i = 1; i < hasil.length; i++) {
-            System.out.printf(" + %sx^%d", String.valueOf(hasil[0]), i);
+            System.out.printf(" + %sx^%d", String.valueOf(hasil[i]), i);
         }
         System.out.printf("%n");
 
@@ -48,13 +48,13 @@ public class InterpolasiPolinom {
         y = 0;
 
         for (int i = 0; i < hasil.length; i++) {
-            y += hasil[i] * xm
-            xm *= x 
+            y += hasil[i] * xm;
+            xm *= x;
         }
         System.out.printf("p%d(%s) = %s%n", mr.getBaris(), String.valueOf(x), String.valueOf(y));
     }
 
     public static void aksi(Scanner input) {
-        InterpolasiPolinom.IPSolver(InterpolasiPolinom.inputIPmanual(input));
+        InterpolasiPolinom.IPSolver(InterpolasiPolinom.inputIPmanual(input), input);
     }
 }
