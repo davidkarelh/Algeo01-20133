@@ -24,19 +24,19 @@ class Regresi{
         /* Regresi */
         double total;
         Matriks data = inputMatriksData(input);
-        double[][] tabelregresi = new double[data.getBaris()][data.getBaris() + 1];
+        double[][] tabelregresi = new double[data.getKolom()][data.getKolom() + 1];
         Matriks regresi = new Matriks(tabelregresi);
         for (int i = 0; i < regresi.getBaris(); i++){
             /* Baris Pertama */
             if (i==0){
                 for (int j = 0; j < regresi.getKolom(); j++){
                     if (j == 0){
-                        regresi.setElement(i, j, data.getKolom());
-                        // regresi.getElement(i,j) = data.getKolom();
+                        regresi.setElement(i, j, data.getBaris());
+                        // regresi.getElement(i,j) = data.getBaris();
                     }
                     else{
                         total = 0;
-                        for(int l = 0; l < data.getKolom(); l++){
+                        for(int l = 0; l < data.getBaris(); l++){
                             total += data.getElement(l,j-1);
                         }
                         regresi.setElement(i, j, total);
@@ -53,9 +53,9 @@ class Regresi{
                     }
                     else{
                         total = 0;
-                        for (int l = 0; l < data.getKolom(); l++){
+                        for (int l = 0; l < data.getBaris(); l++){
                             total += data.getElement(l, i-1) * data.getElement(l, j-1);
-                            // total += tabeldata[i-1][l]*tabeldata[j-1][l];
+                            // total += tabeldata[l][i-1]*tabeldata[l][j-1];
                         }
                         regresi.setElement(i, j, total);
                         // regresi.getElement(i,j) = total;                        
