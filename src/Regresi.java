@@ -7,21 +7,14 @@ class Regresi{
         System.out.println("Masukkan jumlah sampel:");
         Integer M = input.nextInt();
 
-        double[][] tabeldata = new double[N + 1][M];
+        double[][] tabeldata = new double[M][N+1];
 
         /* Inisialisasi array */
-        for (int i = 0; i < N + 1; i++){
-            if (i == N){
-                System.out.println("Masukkan nilai y:");
-                for (int j = 0; j < M; j++){
-                    tabeldata[i][j] = input.nextDouble();
-                }
-            }
-            else{
-                System.out.println("Masukkan nilai x" + ( i + 1 ) + ":");
-                for (int j = 0; j < M; j++){
-                    tabeldata[i][j] = input.nextDouble();
-                }
+        System.out.println("Format pengisian: x1,x2,..,xn,y");
+        for (int i=0;i<M;i++){
+            System.out.println("Masukkan sampel ke-"+(i+1)+":");
+            for (int j=0;j<N+1;j++){
+                tabeldata[i][j] = scan.nextDouble();
             }
         }
         return new Matriks(tabeldata);
@@ -44,7 +37,7 @@ class Regresi{
                     else{
                         total = 0;
                         for(int l = 0; l < data.getKolom(); l++){
-                            total += data.getElement(j-1,l);
+                            total += data.getElement(l,j-1);
                         }
                         regresi.setElement(i, j, total);
                         // regresi.getElement(i,j) = total;                        
@@ -61,7 +54,7 @@ class Regresi{
                     else{
                         total = 0;
                         for (int l = 0; l < data.getKolom(); l++){
-                            total += data.getElement(i - 1, l) * data.getElement(j - 1, l);
+                            total += data.getElement(l, i-1) * data.getElement(l, j-1);
                             // total += tabeldata[i-1][l]*tabeldata[j-1][l];
                         }
                         regresi.setElement(i, j, total);
