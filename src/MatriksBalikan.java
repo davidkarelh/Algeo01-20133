@@ -1,5 +1,7 @@
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -11,7 +13,7 @@ public class MatriksBalikan {
         System.out.print("Masukkan nama file yang berada di folder test: ");
         String chosenFile = input.next();
         Path currentPath = Paths.get(System.getProperty("user.dir"));
-        Path filePath = Paths.get(currentPath.toString(), "test", chosenFile);
+        Path filePath = Paths.get(currentPath.getParent().toString(), "test", chosenFile);
         String barisFile;
         int i, j;
         ArrayList<ArrayList<Double>> kontenDinamis = new ArrayList<ArrayList<Double>>();
@@ -76,6 +78,7 @@ public class MatriksBalikan {
     }
 
     public static void aksi(Scanner input) {
+        String saveString = "";
         boolean exit = false;
         int aksi, pilihanInput;
         Matriks m;
@@ -95,16 +98,24 @@ public class MatriksBalikan {
                 if (pilihanInput == 1) {
                     m = inputMatriksBalikanManual(input);
                     if (m.adaMatriksBalikan()) {
-                        System.out.println(m.inversWithGaussJordan().getString());
+                        saveString = "Matriks balikan:\n" + m.inversWithGaussJordan().getString();
+                        System.out.println("\n" + saveString + "\n");
+                        konfirmasiInputFile(input, saveString);
                     } else {
-                        System.out.println("\nMatriks tidak mempunyai balikan.\n");
+                        saveString = "\nMatriks tidak mempunyai balikan.\n";
+                        System.out.println(saveString);
+                        konfirmasiInputFile(input, saveString);
                     }
                 } else if (pilihanInput == 2) {
                     m = inputMatriksBalikanFile(input);
                     if (m.adaMatriksBalikan()) {
-                        System.out.println(m.inversWithGaussJordan().getString());
+                        saveString = "Matriks balikan:\n" + m.inversWithGaussJordan().getString();
+                        System.out.println("\n" + saveString + "\n");
+                        konfirmasiInputFile(input, saveString);
                     } else {
-                        System.out.println("\nMatriks tidak mempunyai balikan.\n");
+                        saveString = "Matriks tidak mempunyai balikan.\n";
+                        System.out.println("\n" + saveString);
+                        konfirmasiInputFile(input, saveString);
                     }
                 } else if (pilihanInput == 3) {
                     exit = false;
@@ -118,16 +129,24 @@ public class MatriksBalikan {
                 if (pilihanInput == 1) {
                     m = inputMatriksBalikanManual(input);
                     if (m.adaMatriksBalikan()) {
-                        System.out.println(m.inversWithAdjoin().getString());
+                        saveString = "Matriks balikan:\n" + m.inversWithAdjoin().getString();
+                        System.out.println("\n" + saveString + "\n");
+                        konfirmasiInputFile(input, saveString);
                     } else {
-                        System.out.println("\nMatriks tidak mempunyai balikan.\n");
+                        saveString = "Matriks tidak mempunyai balikan.\n";
+                        System.out.println("\n" + saveString);
+                        konfirmasiInputFile(input, saveString);
                     }
                 } else if (pilihanInput == 2) {
                     m = inputMatriksBalikanFile(input);
                     if (m.adaMatriksBalikan()) {
-                        System.out.println(m.inversWithAdjoin().getString());
+                        saveString = "Matriks balikan:\n" + m.inversWithAdjoin().getString();
+                        System.out.println("\n" + saveString + "\n");
+                        konfirmasiInputFile(input, saveString);
                     } else {
-                        System.out.println("\nMatriks tidak mempunyai balikan.\n");
+                        saveString = "Matriks tidak mempunyai balikan.\n";
+                        System.out.println("\n" + saveString);
+                        konfirmasiInputFile(input, saveString);
                     }
                 }else if (pilihanInput == 3) {
                     exit = false;
@@ -142,6 +161,37 @@ public class MatriksBalikan {
                 System.out.println("\nMasukkan tidak valid, ulangi!\n");
             }
         } while(!exit);
+    }
+
+    private static void konfirmasiInputFile(Scanner input, String saveString) {
+        String fileName = "";
+        String konfirmasi = "";
+        System.out.print("Apakah Anda ingin menyimpan output program dalam file? (y/n) ");
+        konfirmasi = input.next();
+        while ((!konfirmasi.equals("y")) && (!konfirmasi.equals("Y")) && (!konfirmasi.equals("n")) && (!konfirmasi.equals("N"))) {
+            System.out.println("Masukkan tidak valid. Ulangi!");
+            System.out.print("Apakah Anda ingin menyimpan output program dalam file? (y/n) ");
+            konfirmasi = input.next();
+        }
+        if ((konfirmasi.equals("y")) || (konfirmasi.equals("Y"))) {
+            System.out.print("Masukkan nama file penyimpanan (ekstensi harus .txt): ");
+            fileName = input.next();
+            outputFile(fileName, saveString);
+            System.out.println("Output telah disimpan di folder test.");
+        }
+        System.out.println();
+    }
+
+    private static void outputFile(String fileName, String saveString) {
+        Path currentPath = Paths.get(System.getProperty("user.dir"));
+        Path filePath = Paths.get(currentPath.getParent().toString(), "test", fileName);
+        try {
+            FileWriter writer = new FileWriter(filePath.toString());
+            writer.write(saveString);
+            writer.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     private static void exitProc(Scanner input) {

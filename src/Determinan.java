@@ -1,5 +1,7 @@
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -10,7 +12,7 @@ public class Determinan {
         System.out.print("Masukkan nama file yang berada di folder test: ");
         String chosenFile = input.next();
         Path currentPath = Paths.get(System.getProperty("user.dir"));
-        Path filePath = Paths.get(currentPath.toString(), "test", chosenFile);
+        Path filePath = Paths.get(currentPath.getParent().toString(), "test", chosenFile);
         String barisFile;
         int i, j;
         ArrayList<ArrayList<Double>> kontenDinamis = new ArrayList<ArrayList<Double>>();
@@ -75,6 +77,7 @@ public class Determinan {
     }
 
     public static void aksi(Scanner input) {
+        String saveString = "";
         boolean exit = false;
         int aksi, pilihanInput;
         do {
@@ -91,13 +94,18 @@ public class Determinan {
                 exit = true;
                 pilihanInput = pilihanInput(input);
                 if (pilihanInput == 1) {
-                    System.out.println(String.format("\nDeterminan matriks yang dimasukkan = %f\n", inputDeterminanManual(input).getDeterminanReduksiBaris()));
+                    saveString = String.format("Determinan matriks yang dimasukkan = %f\n", inputDeterminanManual(input).getDeterminanReduksiBaris());
+                    System.out.println("\n" + saveString);
+                    konfirmasiInputFile(input, saveString);
                 } else if (pilihanInput == 2) {
                     Matriks m = inputDeterminanFile(input);
                     if (m.hasDeterminan()) {
-                        System.out.println(m.getDeterminanReduksiBaris());
+                        saveString = String.format("Determinan matriks yang dimasukkan = %f\n", m.getDeterminanReduksiBaris());
+                        System.out.println("\n" + saveString);
+                        konfirmasiInputFile(input, saveString);
                     } else {
                         System.out.println("Matriks tidak memunyai jumlah baris dan kolom yang sama sehingga tidak mempunyai baris.");
+                        konfirmasiInputFile(input, "Matriks tidak memunyai jumlah baris dan kolom yang sama sehingga tidak mempunyai baris.");
                     }
                 } else if (pilihanInput == 3) {
                     exit = false;
@@ -109,13 +117,18 @@ public class Determinan {
                 exit = true;
                 pilihanInput = pilihanInput(input);
                 if (pilihanInput == 1) {
-                    System.out.println(String.format("\nDeterminan matriks yang dimasukkan = %f\n", inputDeterminanManual(input).getDeterminanKofaktor()));
+                    saveString = String.format("Determinan matriks yang dimasukkan = %f\n", inputDeterminanManual(input).getDeterminanKofaktor());
+                    System.out.println("\n" + saveString);
+                    konfirmasiInputFile(input, saveString);
                 } else if (pilihanInput == 2) {
                     Matriks m = inputDeterminanFile(input);
                     if (m.hasDeterminan()) {
-                        System.out.println(m.getDeterminanKofaktor());
+                        saveString = String.format("Determinan matriks yang dimasukkan = %f\n", m.getDeterminanKofaktor());
+                        System.out.println("\n" + saveString);
+                        konfirmasiInputFile(input, saveString);
                     } else {
                         System.out.println("\nMatriks mempunyai jumlah baris dan kolom yang tidak sama sehingga tidak mempunyai baris.\n");
+                        konfirmasiInputFile(input, "Matriks mempunyai jumlah baris dan kolom yang tidak sama sehingga tidak mempunyai baris.\n");
                     }
                 } else if (pilihanInput == 3) {
                     exit = false;
@@ -130,6 +143,37 @@ public class Determinan {
                 System.out.println("\nMasukkan tidak valid, ulangi!\n");
             }
         } while(!exit);
+    }
+
+    private static void konfirmasiInputFile(Scanner input, String saveString) {
+        String fileName = "";
+        String konfirmasi = "";
+        System.out.print("Apakah Anda ingin menyimpan output program dalam file? (y/n) ");
+        konfirmasi = input.next();
+        while ((!konfirmasi.equals("y")) && (!konfirmasi.equals("Y")) && (!konfirmasi.equals("n")) && (!konfirmasi.equals("N"))) {
+            System.out.println("Masukkan tidak valid. Ulangi!");
+            System.out.print("Apakah Anda ingin menyimpan output program dalam file? (y/n) ");
+            konfirmasi = input.next();
+        }
+        if ((konfirmasi.equals("y")) || (konfirmasi.equals("Y"))) {
+            System.out.print("Masukkan nama file penyimpanan (ekstensi harus .txt): ");
+            fileName = input.next();
+            outputFile(fileName, saveString);
+            System.out.println("Output telah disimpan di folder test.");
+        }
+        System.out.println();
+    }
+
+    private static void outputFile(String fileName, String saveString) {
+        Path currentPath = Paths.get(System.getProperty("user.dir"));
+        Path filePath = Paths.get(currentPath.getParent().toString(), "test", fileName);
+        try {
+            FileWriter writer = new FileWriter(filePath.toString());
+            writer.write(saveString);
+            writer.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     private static void exitProc(Scanner input) {

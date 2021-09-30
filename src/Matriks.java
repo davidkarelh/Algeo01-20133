@@ -8,6 +8,10 @@ public class Matriks {
         this.kolom = konten[0].length;
         this.content = konten;
     }
+
+    Matriks() {
+
+    }
     
     public int getBaris() {
         return baris;
@@ -51,11 +55,14 @@ public class Matriks {
         String string = "";
         for (int i = 0; i < this.baris; i++) {
             for (int j = 0; j < this.kolom; j++) {
-                string += "|";
                 string += String.valueOf(this.content[i][j]);
-                string += "";
+                if (j != this.kolom - 1) {
+                    string += " ";
+                }
             }
-            string += "|\n";
+            if (i != this.baris - 1) {
+                string += "\n";
+            }
         }
         return string;
     }
