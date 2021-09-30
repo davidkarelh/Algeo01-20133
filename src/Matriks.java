@@ -53,11 +53,15 @@ public class Matriks {
             for (int j = 0; j < this.kolom; j++) {
                 string += "|";
                 string += String.valueOf(this.content[i][j]);
-                string += "\t";
+                string += "";
             }
             string += "|\n";
         }
         return string;
+    }
+
+    public boolean hasDeterminan() {
+        return this.baris == this.kolom;
     }
 
     public static Matriks scalarMultiplication(double scalar, Matriks matriks) {
@@ -285,7 +289,7 @@ public class Matriks {
     }
 
     public boolean adaMatriksBalikan() {
-        return new Matriks(this.content).getDeterminanKofaktor() != 0;
+        return hasDeterminan() && new Matriks(this.content).getDeterminanKofaktor() != 0;
     }
 
     public Matriks inversWithGaussJordan() {

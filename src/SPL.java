@@ -4,6 +4,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Scanner;
+
 public class SPL {
 
     public static Matriks inputSPLFile(Scanner input) {
@@ -77,7 +78,7 @@ public class SPL {
     public static void solveWithGaussJordan(Matriks m) {
         System.out.println();
         Matriks matriks = Matriks.eselonTereduksi(m);
-        System.out.println(matriks.getString());
+        // System.out.println(matriks.getString());
         if (hasNoSolution(matriks)) {
             System.out.println("Sistem Persamaan Linear tidak mempunyai solusi.");
         } else if (hasManySolution(matriks)) {
@@ -90,38 +91,49 @@ public class SPL {
 
     private static boolean hasManySolution(Matriks m) {
         boolean many;
-        int j = 0;
+        int j, indexSeharusnya;
         if (m.getBaris() < m.getKolom() - 1) {
             many = true;
         } else {
-            many = true;
-            while (many && j < m.getKolom()) {
-                if (m.getElement(m.getIdxBarisTerakhir(), j) != 0) {
-                    many = false;
+            indexSeharusnya = m.getIdxKolomTerakhir() - 1;
+            int i = m.getIdxBarisTerakhir();
+            boolean stopLoop;
+            many = false;
+            while (!many && i >= 0) {
+                j = 0;
+                stopLoop = false;
+                while (!stopLoop && !many && j < m.getKolom()) {
+                    if (m.getElement(i, j) != 0 && j == indexSeharusnya) {
+                        indexSeharusnya--;
+                        stopLoop = true;
+                    } else if(m.getElement(i, j) != 0 && j != indexSeharusnya) {
+                        many = true;
+                    }
+                    j++;
                 }
-                j++;
-            }
-            while (many && j < m.getKolom()) {
-                if (m.getElement(m.getIdxBarisTerakhir(), j) != 0) {
-                    many = false;
-                }
-                j++;
+                i--;
             }
         }
         return many;
     } 
 
     private static boolean hasNoSolution(Matriks m) {
-        boolean noSolution = true;
-        int j = 0;
-        if (m.getElement(m.getIdxBarisTerakhir(), m.getIdxKolomTerakhir()) == 0) {
-            noSolution = false;
-        }
-        while (noSolution && j < m.getKolom() - 1) {
-            if (m.getElement(m.getIdxBarisTerakhir(), j) != 0) {
-                noSolution = false;
+        boolean noSolution = false;
+        int i = m.getIdxBarisTerakhir();
+        int j;
+        boolean stopLoop = false;
+        while (!stopLoop && i >= 0) {
+            j = 0;
+            while (!stopLoop && j < m.getKolom()) {
+                if (m.getElement(i, j) != 0 && j == m.getIdxKolomTerakhir()) {
+                    noSolution = true;
+                    stopLoop = true;
+                } else if(m.getElement(i, j) != 0 && j != m.getIdxKolomTerakhir()) {
+                    stopLoop = true;
+                }
+                j++;
             }
-            j++;
+            i--;
         }
         return noSolution;
     }
@@ -159,19 +171,37 @@ public class SPL {
                 }
             }
         }
+        // for (int x = 0; x < hasil.length; x++) {
+        //     for (int y = 0; y < hasil[0].length; y++) {
+        //         System.out.print(hasil[x][y] + " - ");
+        //     }
+        //     System.out.println();
+        // }
+        // System.out.println();
         for (i = m.getIdxBarisTerakhir(); i >= 0; i--) {
             j = 0;
             ketemu = false;
             while (j < m.getKolom() && !ketemu) {
                 if (m.getElement(i, j) == 1) {
                     hasil[j][j] = String.valueOf(m.getElement(i, m.getIdxKolomTerakhir()));
-                    for (int l = m.getKolom() - 2; l > j; l--) {
-                        double constant = m.getElement(i, l) * -1;
-                        hasil[j][l] = String.valueOf(m.getElement(i, l) * -1);
-                        for (int k = l; k < hasil[0].length; k++) {
-                            if (!hasil[l][k].equals("real")) {
-                                hasil[j][k] = String.valueOf(Double.parseDouble(hasil[j][k]) + constant * Double.parseDouble(hasil[l][k]));
+                    for (int k = m.getKolom() - 2; k > j; k--) {
+                        double constant = m.getElement(i, k) * -1;
+                        for (int l = k; l < hasil[0].length; l++) {
+                            if (l == k && !hasil[l][l].equals("real")) {
+                                hasil[j][j] = String.valueOf(Double.valueOf(hasil[j][j]) + constant * Double.valueOf(hasil[k][l]));
+                            } else if (l == k && hasil[l][l].equals("real")) {
+                                hasil[j][l] = String.valueOf(Double.valueOf(hasil[j][l]) + constant);
+                            } else {
+                                hasil[j][l] = String.valueOf(Double.valueOf(hasil[j][l]) + constant * Double.parseDouble(hasil[k][l]));
                             }
+
+                            // for (int x = 0; x < hasil.length; x++) {
+                            //     for (int y = 0; y < hasil[0].length; y++) {
+                            //         System.out.print(hasil[x][y] + " - ");
+                            //     }
+                            //     System.out.println();
+                            // }
+                            // System.out.println();
                         }
                     }
                     ketemu = true;
@@ -179,6 +209,13 @@ public class SPL {
                 j++;
             }
         }
+        // for (i = 0; i < hasil.length; i++) {
+        //     for (j = 0; j < hasil[0].length; j++) {
+        //         System.out.print(hasil[i][j] + " - ");
+        //     }
+        //     System.out.println();
+        // }
+        System.out.println();
         for (i = 0; i < hasil.length; i++) {
             boolean ada = false;
             boolean sudah = false;
@@ -192,6 +229,18 @@ public class SPL {
                         if (Double.parseDouble(hasil[i][j]) != 0) {
                             System.out.print(Double.parseDouble(hasil[i][j]));
                             ada = true;
+                        }
+                        if (Double.parseDouble(hasil[i][j]) == 0) {
+                            boolean printZero = true;
+                            for (int x = j + 1; x < hasil[0].length; x++) {
+                                if (Double.parseDouble(hasil[i][x]) != 0) {
+                                    printZero = false;
+                                    break;
+                                }
+                            }
+                            if (printZero) {
+                                System.out.print(Double.parseDouble(hasil[i][j]));
+                            }
                         }
                     } else {
                         if (Double.parseDouble(hasil[i][j]) != 0) {
@@ -216,30 +265,36 @@ public class SPL {
 
     public static void solveWithInversMatriks(Matriks m) {
         System.out.println();
-        if (m.adaMatriksBalikan()) {
-            double[][] konten1 = new double[m.getBaris()][m.getKolom() - 1];
-            double[][] konten2 = new double[m.getBaris()][1];
-            for (int i = 0; i < m.getBaris(); i++) {
-                for (int j = 0; j < m.getKolom() - 1; j++) {
-                    konten1[i][j] = m.getElement(i, j);
+        if (m.getBaris() == m.getKolom() - 1) {
+            if (m.adaMatriksBalikan()) {
+                double[][] konten1 = new double[m.getBaris()][m.getKolom() - 1];
+                double[][] konten2 = new double[m.getBaris()][1];
+                for (int i = 0; i < m.getBaris(); i++) {
+                    for (int j = 0; j < m.getKolom() - 1; j++) {
+                        konten1[i][j] = m.getElement(i, j);
+                    }
                 }
-            }
-            for (int i = 0; i < m.getBaris(); i++) {
-                konten2[i][0] = m.getElement(i, m.getIdxKolomTerakhir());
-            }
-            Matriks matriks = Matriks.multiply(new Matriks(konten1).inversWithGaussJordan(), new Matriks(konten2));
-            for (int i = 0; i < matriks.getBaris(); i++) {
-                System.out.println(String.format("Variabel %d = %f", i + 1, matriks.getElement(i, 0)));
+                for (int i = 0; i < m.getBaris(); i++) {
+                    konten2[i][0] = m.getElement(i, m.getIdxKolomTerakhir());
+                }
+                Matriks matriks = Matriks.multiply(new Matriks(konten1).inversWithGaussJordan(), new Matriks(konten2));
+                for (int i = 0; i < matriks.getBaris(); i++) {
+                    System.out.println(String.format("Variabel %d = %f", i + 1, matriks.getElement(i, 0)));
+                }
+            } else {
+                System.out.println("Matriks variabel (bagian kiri persamaan) tidak memiliki balikan.");
             }
         } else {
-            System.out.println("Matriks variabel (bagian kiri persamaan) tidak memiliki balikan.");
+            System.out.println("Matriks variabel (bagian kiri persamaan) tidak memiliki jumlah baris dan kolom yang sama sehingga tidak mempunyai invers.");
         }
+        
         System.out.println();
     }
 
     public static void solveWithCramer(Matriks m) {
         System.out.println();
-        if (hasSingleSolution(m)) {
+        Matriks matriks = Matriks.reduksiBaris(new Matriks(m.getKonten()), true);
+        if (hasSingleSolution(matriks)) {
             double[][] kontenB = new double[m.getBaris()][1];
             for (int i = 0; i < m.getBaris(); i++) {
                 kontenB[i][0] = m.getElement(i, m.getIdxKolomTerakhir());
@@ -267,12 +322,13 @@ public class SPL {
         }
         System.out.println();
     }
+
     public static int pilihanInput(Scanner input) {
         int pilihanInput;
         do {
             System.out.println(
             """
-            PILIH METODE INPUT
+            PILIHAN METODE INPUT
             1. Manual
             2. File
             3. Kembali
@@ -312,6 +368,9 @@ public class SPL {
                 } else if (pilihanInput == 3) {
                     valid = false;
                 }
+                if (valid) {
+                    exitProc(input);
+                }
             } else if (aksi == 2) {
                 valid = true;
                 pilihanInput = pilihanInput(input);
@@ -321,6 +380,9 @@ public class SPL {
                     SPL.solveWithGaussJordan(SPL.inputSPLFile(input));
                 } else if (pilihanInput == 3) {
                     valid = false;
+                }
+                if (valid) {
+                    exitProc(input);
                 }
             } else if (aksi == 3) {
                 valid = true;
@@ -332,6 +394,9 @@ public class SPL {
                 } else if (pilihanInput == 3) {
                     valid = false;
                 }
+                if (valid) {
+                    exitProc(input);
+                }
             } else if (aksi == 4) {
                 valid = true;
                 pilihanInput = pilihanInput(input);
@@ -342,6 +407,9 @@ public class SPL {
                 } else if (pilihanInput == 3) {
                     valid = false;
                 }
+                if (valid) {
+                    exitProc(input);
+                }
             } else if (aksi == 5) {
                 valid = true;
                 System.out.println();
@@ -349,7 +417,10 @@ public class SPL {
                 System.out.println("Input tidak valid, ulangi!");
                 System.out.println();
             }
-        } while(!valid);
+        } while(!valid);   
+    }
+
+    private static void exitProc(Scanner input) {
         System.out.print("Kembali ke menu utama? Masukkan apapun untuk kembali ke menu utama: ");
         input.next();
         System.out.println();
