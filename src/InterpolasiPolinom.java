@@ -35,23 +35,49 @@ public class InterpolasiPolinom {
             }
         }
 
-        System.out.printf("%s", String.valueOf(hasil[0]));
-        for (int i = 1; i < hasil.length; i++) {
-            System.out.printf(" + %sx^%d", String.valueOf(hasil[i]), i);
+        boolean notFirst = false;
+        
+        for (int i = 0; i < hasil.length; i++) {
+            if (notFirst) {
+                System.out.printf(" + ");
+            }
+            if ((hasil[i]) == 0) {}
+            else if ((hasil[i]) == 1) {
+                if (i == 0) {
+                    System.out.printf("1");
+                    notFirst = true;
+                } else if (i == 1) {
+                    System.out.printf("x");
+                    notFirst = true;
+                } else {
+                    System.out.printf("x^%d", i);
+                    notFirst = true;
+                }
+            } else {
+                if (i == 0) {
+                    System.out.printf("%s", String.valueOf(hasil[i]));
+                    notFirst = true;
+                } else if (i == 1) {
+                    System.out.printf("%sx", String.valueOf(hasil[i]));
+                    notFirst = true;
+                } else {
+                    System.out.printf("%sx^%d", String.valueOf(hasil[i]), i);
+                    notFirst = true;
+                }
+            }
         }
         System.out.printf("%n");
 
-        double x = input.nextInt();
-        double y = input.nextDouble();
+        double x = input.nextDouble();
         
         double xm = 1;
-        y = 0;
+        double y = 0;
 
         for (int i = 0; i < hasil.length; i++) {
             y += hasil[i] * xm;
             xm *= x;
         }
-        System.out.printf("p%d(%s) = %s%n", mr.getBaris(), String.valueOf(x), String.valueOf(y));
+        System.out.printf("p%d(%s) = %s%n", mr.getBaris() - 1, String.valueOf(x), String.valueOf(y));
     }
 
     public static void aksi(Scanner input) {
