@@ -3,16 +3,16 @@ public class Matriks {
     private int kolom;
     private double[][] content;
 
+    // KONSTRUKTOR
     Matriks(double[][] konten) {
         this.baris = konten.length;
         this.kolom = konten[0].length;
         this.content = konten;
     }
 
-    Matriks() {
-
-    }
+    Matriks() {}
     
+    // SELEKTOR
     public int getBaris() {
         return baris;
     }
@@ -82,6 +82,7 @@ public class Matriks {
     }
 
     public static Matriks reduksiBaris(Matriks matriks, boolean eselon) {
+        // variabel posisi menandakan lokasi indeks satu utama
         double[][] konten = matriks.getKonten();
         int m = matriks.getBaris();
         int n = matriks.getKolom();
@@ -134,6 +135,7 @@ public class Matriks {
     }
 
     public static Matriks eselonTereduksi(Matriks matriks) {
+        // variabel posisi menandakan lokasi indeks satu utama
         matriks = Matriks.reduksiBaris(matriks, true);
         double[][] konten = matriks.getKonten();
         int[] posisi = {1, 1};
