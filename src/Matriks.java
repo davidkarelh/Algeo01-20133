@@ -195,7 +195,7 @@ public class Matriks {
             for(int j = 0; j < matriks2.getKolom(); j++) {    
                konten[i][j] = 0;     
                 for(int k = 0; k < matriks1.getKolom(); k++) {     
-                    konten[i][j] += matriks1.getElement(i, k) * matriks2.getElement(k, j);
+                    konten[i][j] += (matriks1.getElement(i, k) * matriks2.getElement(k, j));
                 } 
             } 
         }   
@@ -296,7 +296,7 @@ public class Matriks {
     }
 
     public boolean adaMatriksBalikan() {
-        return hasDeterminan() && new Matriks(this.content).getDeterminanKofaktor() != 0;
+        return (new Matriks(this.content).hasDeterminan()) && (new Matriks(this.content).getDeterminanKofaktor() != 0);
     }
 
     public Matriks inversWithGaussJordan() {
@@ -317,12 +317,14 @@ public class Matriks {
         }
         
         Matriks matriks = eselonTereduksi(new Matriks(konten));
+        
         konten = new double[this.baris][this.kolom];
         for (int i = 0; i < this.baris; i++) {
             for (int j = this.kolom; j < 2 * this.kolom; j++) {
                 konten[i][j - this.kolom] = matriks.getElement(i, j);
             }
         }
+        
         return new Matriks(konten);
     }
 }
