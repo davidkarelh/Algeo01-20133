@@ -265,17 +265,17 @@ public class SPL {
         String saveString = "";
         System.out.println();
         if (m.getBaris() == m.getKolom() - 1) {
-            if (m.adaMatriksBalikan()) {
-                double[][] konten1 = new double[m.getBaris()][m.getKolom() - 1];
-                double[][] konten2 = new double[m.getBaris()][1];
-                for (int i = 0; i < m.getBaris(); i++) {
-                    for (int j = 0; j < m.getKolom() - 1; j++) {
-                        konten1[i][j] = m.getElement(i, j);
-                    }
+            double[][] konten1 = new double[m.getBaris()][m.getKolom() - 1];
+            double[][] konten2 = new double[m.getBaris()][1];
+            for (int i = 0; i < m.getBaris(); i++) {
+                for (int j = 0; j < m.getKolom() - 1; j++) {
+                    konten1[i][j] = m.getElement(i, j);
                 }
-                for (int i = 0; i < m.getBaris(); i++) {
-                    konten2[i][0] = m.getElement(i, m.getIdxKolomTerakhir());
-                }
+            }
+            for (int i = 0; i < m.getBaris(); i++) {
+                konten2[i][0] = m.getElement(i, m.getIdxKolomTerakhir());
+            }
+            if (new Matriks(konten1).adaMatriksBalikan()) {
                 Matriks matriks = Matriks.multiply(new Matriks(konten1).inversWithGaussJordan(), new Matriks(konten2));
                 for (int i = 0; i < matriks.getBaris(); i++) {
                     System.out.println(String.format("Variabel %d = %f", i + 1, matriks.getElement(i, 0)));
