@@ -9,7 +9,7 @@ Tugas Besar 1 IF 2123 Aljabar Linier dan Geometri Sistem Persamaan Linier, Deter
 
     David Karel Halomoan	 		13520154
 
-    Daffa Romyz Aufa 				13520162
+    Daffa Romyz Aufa 			13520162
 
 ## Menjalankan Program
 
