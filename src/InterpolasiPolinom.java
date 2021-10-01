@@ -33,13 +33,11 @@ public class InterpolasiPolinom {
                     konten[i][j] = kontenDinamis.get(i).get(j);
                 }
             }
-            // System.out.println(new Matriks(konten).getString());
 
             int n = konten.length;
             double[][] kontenFix = new double[n][n + 1];
             for (i = 0; i < n; i++) {
                 double a = 1;
-                // System.out.print(String.format("Masukkan titik ke-%d: ", i + 1));
                 double x = konten[i][0];
                 double y = konten[i][1];
                 for (j = 0; j < n; j++) {
@@ -74,7 +72,6 @@ public class InterpolasiPolinom {
             }
             konten[i][n] = y;
         }
-        // System.out.println(new Matriks(konten).getString());
         return new Matriks(konten);
     }
 

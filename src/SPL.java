@@ -34,7 +34,6 @@ public class SPL {
                     konten[i][j] = kontenDinamis.get(i).get(j);
                 }
             }
-            // System.out.println(new Matriks(konten).getString());
             return new Matriks(konten);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -67,7 +66,6 @@ public class SPL {
         String saveString;
         System.out.println();
         Matriks matriks = Matriks.reduksiBaris(m, true);
-        System.out.println(matriks.getString());
         if (hasNoSolution(matriks)) {
             System.out.println("Sistem Persamaan Linear tidak mempunyai solusi.");
             saveString = "Sistem Persamaan Linear tidak mempunyai solusi.\n";
@@ -84,7 +82,6 @@ public class SPL {
         String saveString;
         System.out.println();
         Matriks matriks = Matriks.eselonTereduksi(m);
-        // System.out.println(matriks.getString());
         if (hasNoSolution(matriks)) {
             System.out.println("Sistem Persamaan Linear tidak mempunyai solusi.");
             saveString = "Sistem Persamaan Linear tidak mempunyai solusi." + "\n";
@@ -359,7 +356,6 @@ public class SPL {
     }
 
     public static void aksi(Scanner input) {
-        // String saveString = "";
         boolean valid = false;
         int aksi, pilihanInput;
         do {

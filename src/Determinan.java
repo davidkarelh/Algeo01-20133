@@ -33,7 +33,6 @@ public class Determinan {
                     konten[i][j] = kontenDinamis.get(i).get(j);
                 }
             }
-            // System.out.println(new Matriks(konten).getString());
             return new Matriks(konten);
         } catch (FileNotFoundException e) {
             e.printStackTrace();

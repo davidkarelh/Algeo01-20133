@@ -102,7 +102,6 @@ class Regresi{
                 for (int j = 0; j < regresi.getKolom(); j++){
                     if (j == 0){
                         regresi.setElement(i, j, data.getBaris());
-                        // regresi.getElement(i,j) = data.getBaris();
                     }
                     else{
                         total = 0;
@@ -110,7 +109,6 @@ class Regresi{
                             total += data.getElement(l,j-1);
                         }
                         regresi.setElement(i, j, total);
-                        // regresi.getElement(i,j) = total;                        
                     }
                 }
             }
@@ -119,16 +117,13 @@ class Regresi{
                 for (int j = 0; j < regresi.getKolom(); j++){
                     if (j == 0){
                         regresi.setElement(i, j, regresi.getElement(j, i));
-                        // regresi.setElement(i,j)=regresi.getElement(j,i);
                     }
                     else{
                         total = 0;
                         for (int l = 0; l < data.getBaris(); l++){
                             total += data.getElement(l, i-1) * data.getElement(l, j-1);
-                            // total += tabeldata[l][i-1]*tabeldata[l][j-1];
                         }
                         regresi.setElement(i, j, total);
-                        // regresi.getElement(i,j) = total;                        
                     }
                 }
             }
@@ -143,11 +138,6 @@ class Regresi{
             }
             konfirmasiInputFile(input, saveString);
             exitProc(input);
-            // for (int i = 0; i < regresi.getBaris(); i++){
-            //     System.out.println(String.format("b_%d = %f", i, regresi.getElement(i, regresi.getIdxKolomTerakhir())));
-            //     // System.out.print("B%d: ",i);
-            //     System.out.println(regresi.getElement(i, regresi.getIdxKolomTerakhir()));
-            // }
         }
     }
 
