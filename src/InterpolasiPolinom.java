@@ -125,7 +125,7 @@ public class InterpolasiPolinom {
             y += hasil[i] * xm;
             xm *= x;
         }
-        System.out.printf("p_%d(%s) = %s%n\n", mr.getBaris(), String.valueOf(x), String.valueOf(y));
+        System.out.printf("p_%d(%s) = %s%n\n", mr.getBaris() - 1, String.valueOf(x), String.valueOf(y));
         saveString += String.format("\np_%d(%s) = %s%n\n", mr.getBaris(), String.valueOf(x), String.valueOf(y));
         return saveString;
     }

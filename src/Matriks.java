@@ -317,7 +317,6 @@ public class Matriks {
         }
         
         Matriks matriks = eselonTereduksi(new Matriks(konten));
-        
         konten = new double[this.baris][this.kolom];
         for (int i = 0; i < this.baris; i++) {
             for (int j = this.kolom; j < 2 * this.kolom; j++) {
