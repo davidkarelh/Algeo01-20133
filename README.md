@@ -3,9 +3,15 @@
 
 Tugas Besar 1 IF 2123 Aljabar Linier dan Geometri Sistem Persamaan Linier, Determinan, dan Aplikasinya Semester I Tahun 2021/2022
 
-## Menjalankan Program
+## Kelompok 51 13520133
 
-### Untuk Windows
+    Jevant Jedidia Augustine		13520133
+
+    David Karel Halomoan	 		13520154
+
+    Daffa Romyz Aufa 				13520162
+
+## Menjalankan Program
 
 1. Git clone repository ini pada perangkat Anda
 2. Buka Command Prompt / Windows Powershell pada perangkat Anda
@@ -13,9 +19,6 @@ Tugas Besar 1 IF 2123 Aljabar Linier dan Geometri Sistem Persamaan Linier, Deter
 4. Pindah ke folder bin (cd bin)
 5. Ketik java TubesDriver pada Command Prompt atau Windows Powershell
 6. Program siap dijalankan
-
-### Untuk Mac OS
-
 
 ## Hal-Hal yang Perlu Diketahui
 
@@ -42,3 +45,9 @@ Tugas Besar 1 IF 2123 Aljabar Linier dan Geometri Sistem Persamaan Linier, Deter
 
     CONTOH:
         output_program.txt
+7. Saat memasukkan angka yang bukan untuk melakukan aksi, format yang diterima adalah:
+    - Seperti integer biasa (xxxx)
+    - Dengan titik desimal (xx.xxxx)
+    - Kedua format di atas dapat ditambahkan lambang '-' untuk menandakan bilangan negatif (-xx.xxx atau -xx), antara lambang '-' dan angka tidak boleh dipisahkan spasi atau apapun
+    
+    Format yang lain tidak diterima.
