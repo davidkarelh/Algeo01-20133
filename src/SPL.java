@@ -276,7 +276,6 @@ public class SPL {
                 konten2[i][0] = m.getElement(i, m.getIdxKolomTerakhir());
             }
             if (new Matriks(konten1).adaMatriksBalikan()) {
-                System.out.println(new Matriks(konten1).inversWithGaussJordan());
                 Matriks matriks = Matriks.multiply(new Matriks(konten1).inversWithAdjoin(), new Matriks(konten2));
                 for (int i = 0; i < matriks.getBaris(); i++) {
                     System.out.println(String.format("Variabel %d = %f", i + 1, matriks.getElement(i, 0)));

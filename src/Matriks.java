@@ -155,12 +155,10 @@ public class Matriks {
                 }
             }
             if (konten[posisi[0]][posisi[1]] == 0) break; 
-            if (konten[posisi[0] - 1][posisi[1]] != 0) {
-                for (int k = 1; k <= posisi[0]; k++){
-                    double constant = konten[posisi[0] - k][posisi[1]] / konten[posisi[0]][posisi[1]];
-                    for (int j = 0; j < n; j++) {
-                        konten[posisi[0] - k][j] -= constant * konten[posisi[0]][j];
-                    }
+            for (int k = 1; k <= posisi[0]; k++){
+                double constant = konten[posisi[0] - k][posisi[1]] / konten[posisi[0]][posisi[1]];
+                for (int j = 0; j < n; j++) {
+                    konten[posisi[0] - k][j] -= constant * konten[posisi[0]][j];
                 }
             }
             posisi[0] += 1; 
