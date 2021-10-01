@@ -91,25 +91,53 @@ public class InterpolasiPolinom {
 
         System.out.println("\nPersamaan hasil interpolasi polinom:");
         saveString += "Persamaan hasil interpolasi polinom:\n";
-        System.out.printf("%s", String.valueOf(hasil[0]));
-        saveString += String.format("%s", String.valueOf(hasil[0]));
+        boolean sudahAdaYangDitulis = false;
+        if (hasil[0] != 0) {
+            System.out.printf("%s", String.valueOf(hasil[0]));
+            saveString += String.format("%s", String.valueOf(hasil[0]));
+            sudahAdaYangDitulis = true;
+        }
         for (int i = 1; i < hasil.length; i++) {
             if (hasil[i] != 0) {
                 if (hasil[i] > 0) {
                     if (i == 1) {
-                        System.out.printf(" + %s(x)", String.valueOf(hasil[i]), i);
-                        saveString += String.format(" + %s(x)", String.valueOf(hasil[i]), i);
+                        if (!sudahAdaYangDitulis) {
+                            System.out.printf("%s(x)", String.valueOf(hasil[i]), i);
+                            saveString += String.format("%s(x)", String.valueOf(hasil[i]), i);
+                            sudahAdaYangDitulis = true;
+                        } else {
+                            System.out.printf(" + %s(x)", String.valueOf(hasil[i]), i);
+                            saveString += String.format(" + %s(x)", String.valueOf(hasil[i]), i);
+                        }
                     } else {
-                        System.out.printf(" + %s(x^%d)", String.valueOf(hasil[i]), i);
-                        saveString += String.format(" + %s(x^%d)", String.valueOf(hasil[i]), i);
+                        if (!sudahAdaYangDitulis) {
+                            System.out.printf("%s(x^%d)", String.valueOf(hasil[i]), i);
+                            saveString += String.format("%s(x^%d)", String.valueOf(hasil[i]), i);
+                            sudahAdaYangDitulis = true;
+                        } else {
+                            System.out.printf(" + %s(x^%d)", String.valueOf(hasil[i]), i);
+                            saveString += String.format(" + %s(x^%d)", String.valueOf(hasil[i]), i);
+                        }
                     }
                 } else {
                     if (i == 1) {
-                        System.out.printf(" - %s(x)", String.valueOf(hasil[i] * -1), i);
-                        saveString += String.format(" - %s(x)", String.valueOf(hasil[i] * -1), i);
+                        if (!sudahAdaYangDitulis) {
+                            System.out.printf("%s(x)", String.valueOf(hasil[i]), i);
+                            saveString += String.format("%s(x)", String.valueOf(hasil[i]), i);
+                            sudahAdaYangDitulis = true;
+                        } else {
+                            System.out.printf(" - %s(x)", String.valueOf(hasil[i] * -1), i);
+                            saveString += String.format(" - %s(x)", String.valueOf(hasil[i] * -1), i);
+                        }
                     } else {
-                        System.out.printf(" - %s(x^%d)", String.valueOf(hasil[i] * -1), i);
-                        saveString += String.format(" - %s(x^%d)", String.valueOf(hasil[i] * -1), i);
+                        if (!sudahAdaYangDitulis) {
+                            System.out.printf("%s(x^%d)", String.valueOf(hasil[i]), i);
+                            saveString += String.format("%s(x^%d)", String.valueOf(hasil[i]), i);
+                            sudahAdaYangDitulis = true;
+                        } else {
+                            System.out.printf(" - %s(x^%d)", String.valueOf(hasil[i] * -1), i);
+                            saveString += String.format(" - %s(x^%d)", String.valueOf(hasil[i] * -1), i);
+                        }
                     }
                 }
             }
